@@ -19,6 +19,6 @@ public class testy
     
     public static int giveMeTen()
     {
-        return 10;
+        return 8;
     }
 }
