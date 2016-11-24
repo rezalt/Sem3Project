@@ -48,10 +48,6 @@ public abstract class DataManager<T, PK>
     
     /**
      * Saves an entity to the database.
-     * 
-     * @Author: Casper Schultz
-     * @Date: 2/12 2015
-     * 
      * @param entity    Entity to create
      * @return          The entity created
      */
