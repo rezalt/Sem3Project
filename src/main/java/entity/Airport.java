@@ -143,8 +143,7 @@ public class Airport {
         this.timezone = timezone;
         
     }
-    pulbic 
-    private Long id;
+    pulbic private Long id;
 
     public Long getId() {
         return id;
