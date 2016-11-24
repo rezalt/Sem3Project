@@ -16,7 +16,6 @@ import javax.persistence.Table;
  * @author josephawwal
  */
 @Entity
-
 @Table(name = "AIRPORTS")
 @NamedQueries({
     @NamedQuery(name = "Airport.findAirportByIATA", query = "SELECT p FROM Airport p WHERE p.IATAcode = :IATAcode"),
@@ -29,7 +28,7 @@ public class Airport {
 
     @Id
     @Column(name = "AIRPORT_ID")
-    private int id;
+    private long id;
     
     @Column(name = "NAME")
     private String name;
@@ -62,7 +61,7 @@ public class Airport {
         
     }
     
-    public int getId(){
+    public long getId(){
         return id;
     }
     
@@ -143,11 +142,6 @@ public class Airport {
         this.timezone = timezone;
         
     }
-    pulbic private Long id;
-
-    public Long getId() {
-        return id;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -156,7 +150,7 @@ public class Airport {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+      //  hash += (id != null ? id.hashCode() : 0);
         return hash;
     }
 
@@ -167,9 +161,9 @@ public class Airport {
             return false;
         }
         Airport other = (Airport) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
+//        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+//            return false;
+//        }
         return true;
     }
 

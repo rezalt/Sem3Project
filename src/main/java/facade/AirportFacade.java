@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
 import javax.ws.rs.core.Response;
-import utility.AirportScraper;
+//import utility.AirportScraper;
 /**
  *
  * @author josephawwal
@@ -26,7 +26,7 @@ public class AirportFacade {
     
     private AirportFacade(){
         dao = new AirportDAO();
-        this.saveAirports();
+//        this.saveAirports();
         
     }
     
@@ -51,18 +51,18 @@ public class AirportFacade {
         }
     }
     
-    private void saveAirports(){
-        
-        try {
-            
-            dao.getAirportByIATA("CPH");
-                    
-        } catch (NoResultException e){
-            dao.deleteAll("AIRPORTS");
-            List<Airport> airports = AirportScraper.fetchAirportData();
-            dao.createFromList(airports);
-        }
-    }
+//    private void saveAirports(){
+//        
+//        try {
+//            
+//            dao.getAirportByIATA("CPH");
+//                    
+//        } catch (NoResultException e){
+//            dao.deleteAll("AIRPORTS");
+//            List<Airport> airports = AirportScraper.fetchAirportData();
+//            dao.createFromList(airports);
+//        }
+//    }
     
     public List<Airport> getAirportsByCity(String city) throws FlightException {
         return dao.getAirportsByCity(city);
