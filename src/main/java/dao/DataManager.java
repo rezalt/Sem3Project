@@ -126,10 +126,6 @@ public abstract class DataManager<T, PK>
     
     /**
      * Deletes all rows in a table.
-     * 
-     * NOTICE!!! We use a specific way of naming
-     * the tables! If this isn't done correctly, the
-     * method won't work!
      * @param table      name of the table to delete contents from. 
      */
     public void deleteAll(String table) {
