@@ -129,7 +129,7 @@ public abstract class DataManager<T, PK>
      * @param table      name of the table to delete contents from. 
      */
     public void deleteAll(String table) {
-        // We use a specific convention for naming the tables.
+        
         transaction.begin();
         Query q = manager.createNativeQuery("DELETE FROM " + table);
         q.executeUpdate();
