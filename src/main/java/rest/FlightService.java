@@ -70,6 +70,14 @@ public class FlightService
         }
         return "error";
     }
+    @GET
+    @Path("getFlight")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAFlight(String content)
+    {
+      
+        return content;
+    }
 
 }
 
