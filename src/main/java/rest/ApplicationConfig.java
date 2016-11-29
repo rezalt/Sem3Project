@@ -12,12 +12,13 @@ public class ApplicationConfig extends Application {
         Set<Class<?>> resources = new java.util.HashSet<Class<?>>();
         addRestResourceClasses(resources);
         return resources;
+        
+        
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources)
     {
         resources.add(rest.AirportService.class);
         resources.add(rest.FlightService.class);
-        resources.add(rest.GenericResource.class);
     }
 }
