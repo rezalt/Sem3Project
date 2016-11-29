@@ -5,6 +5,7 @@
  */
 package APItests;
 
+import rest.FlightService;
 import static com.jayway.restassured.RestAssured.given;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,9 @@ public class FlightSearchTest
     public void LarsFlightSearch()
     {
         
-        assertNotNull(this);
+        FlightService fs = new FlightService();
+        
+        assertNotNull(fs.getAFlight());
         String url = "http://airline-plaul.rhcloud.com/api/flightinfo/";
         
         
