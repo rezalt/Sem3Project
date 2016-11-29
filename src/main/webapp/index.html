@@ -1,10 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="flights" ng-controller="testFlightCtrl as ctrl">
     <head>
         <title>Start Page</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+        <script src="assets/javascript/testflight.js" type="text/javascript"></script>
     </head>
     <body>
         <h1>Hello friend.</h1>
+        <button ng-click="getFlight()">Get flight</button>
+        <table style="text-align: center" border = 1>
+            <tr>
+                <th>
+                  flightID  
+                </th>
+                <th>
+                  numberOfSeats  
+                </th>
+                <th>
+                  date  
+                </th>
+                <th>
+                  totalPrice  
+                </th>
+                <th>
+                  traveltime  
+                </th>
+                <th>
+                  origin  
+                </th>
+                <th>
+                  destination  
+                </th>
+                <th>
+                  flightNumber  
+                </th>
+            </tr>
+            <tr>
+                <td>
+                     {{ctrl.flightData.flights[0].flightID}} 
+                </td>
+                <td>
+                     {{ctrl.flightData.flights[0].numberOfSeats}} 
+                </td>
+                <td>
+                    {{ctrl.flightData.flights[0].date}} 
+                </td>
+                <td>
+                    {{ctrl.flightData.flights[0].totalPrice}} 
+                </td>
+                <td>
+                    {{ctrl.flightData.flights[0].traveltime}} 
+                </td>
+                <td>
+                    {{ctrl.flightData.flights[0].origin}} 
+                </td>
+                <td>
+                    {{ctrl.flightData.flights[0].destination}} 
+                </td>
+                <td>
+                    {{ctrl.flightData.flights[0].flightNumber}}            
+                </td>
+            </tr>
+        </table>
+       
     </body>
 </html>
