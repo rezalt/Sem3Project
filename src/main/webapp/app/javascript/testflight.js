@@ -19,11 +19,24 @@ myApp.controller('testFlightCtrl', function ($scope, $http) {
             $scope.error = data.error + data.message;
         });
     };
+    
+    
 });
 
 
 
-
+myApp.filter('traveltime', function() {
+        return function(input, traveltime) {
+            var h = Math.floor(input / 60); 
+            var m = (input - (h*60)); 
+            
+            if (m > 0)
+            var time = h + 'h ' + m + 'm';
+            else if(m === 0)
+              var time = h + 'h ';
+            return time;
+        };
+    });
 
 
 
