@@ -57,20 +57,22 @@ public class FlightSearchTest
         FlightService fs = new FlightService();
         
         assertNotNull(fs.getAFlight());
-        String url = "http://airline-plaul.rhcloud.com/api/flightinfo/";
-        
-        
-            List<String> destinationList = new ArrayList();
-            destinationList.add("SXF");
-            destinationList.add("STN");
-            destinationList.add("STN");
-            destinationList.add("SXF");
-        
+            String url = "http://localhost:8080";
+            //søger efter fly fra cph lufthavn 1/1 -17.
+            String apiUri ="api/flights/copenhagen/2017-01-01/1";
+            String finalUri=url+apiUri;
+//        
+//            List<String> destinationList = new ArrayList();
+//            destinationList.add("SXF");
+//            destinationList.add("STN");
+//            destinationList.add("STN");
+//            destinationList.add("SXF");
+//        
         given()
                 .contentType("application/json")
                 .when()
                 .get( url )
                 .then()
-                .body("flights.destination", equalTo(destinationList));
+                .body("flights.destination", equalTo("copenhagen"));
     }
 }
