@@ -59,7 +59,7 @@
                                         <div class="col-sm-44">
                                             <p id="datepairExample">
                                                 <input type="" class="date start" placeholder="Departure Date" />
-                                               <!-- <input type="" class="date end" placeholder="Returning Date" /> -->
+                                                <!-- <input type="" class="date end" placeholder="Returning Date" /> -->
                                             </p>
                                         </div>
                                         <div class="col-sm-22">
@@ -77,27 +77,30 @@
                                     <h2> New York, JFK  <img src="assets/images/left-right-aero.png" alt=""> Dubai, PRG <span>Sunday, 27 November 2016 - Wednesday, 30 November 2016,  1 Traveller(s), Economy</span>
                                     </h2>
                                 </div>
-                                <div class="choose-flight">
+                                <div class="choose-flight" ng-show="ctrl.flightsGotten">
                                     <div class="choose-slid">
-                                        <div id="owl-demo" class="owl-carousel">
-
-                                            <div class="item">
+                                        <div id="owl-demo" class="owl-carousel" >
+                                           aaa {{ctrl.dataSize}} sss
+                                            <div class="item" >
 
                                                 <div class="choose">
-                                                    <img src="assets/images/air-india-logo.png" alt="">
+                                                    <img src="assets/images/air-india-logo.png" alt=""> 
+                                                    {{ctrl.flightData.airline}}
                                                     <h3>$125.00<span>${{ctrl.flightData.flights[0].totalPrice}}</span></h3>
                                                     <div class="clearfix"></div>
                                                     <div class="choose-btn">
                                                         <ul>
-                                                            <li> From  <span>{{ctrl.flightData.flights[0].origin}} 5:10 pm</span></li>
-                                                            <li><img src="assets/images/dark-aero.png" alt=""></li>
-                                                            <li> To  <span>{{ctrl.flightData.flights[0].destination}} 5:10 pm</span></li>
-                                                            <li>{{ctrl.flightData.flights[0].traveltime | traveltime}} <span>Direct</span></li>
+                                                            <li> From here  <span>{{ctrl.flightData.flights[0].origin}} 5:10 pm</span></li>
+                                                            <li><img src="assets/images/oneway-aero.png" alt=""></li>
+                                                            <li> To there <span>{{ctrl.flightData.flights[0].destination}} 5:10 pm</span></li>
+                                                            <li>{{ctrl.flightData.flights[0].traveltime| traveltime}} <span>Direct</span></li>
                                                         </ul>
                                                         <button class="btn">Choose</button>
                                                         <div class="clearfix"></div>
                                                     </div>
                                                 </div>
+                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -227,7 +230,7 @@
                             <li><a href="#"><img src="assets/images/pinterest-icon.png" alt=""></a></li>
                             <li><a href="#"><img src="assets/images/twit-bird-icon.png" alt=""></a></li>
                             <li><a href="#"><img src="assets/images/in-icon.png" alt=""></a></li>
-                            <li><a href="#"><img src="assets/images/gplus-icon.png" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/g-icon.jpg" alt=""></a></li>
                             <li><img src="assets/images/standing-border.jpg" alt=""></li>
                         </ul>
                     </div>
@@ -259,7 +262,7 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title" id="myModalLabel"><img src="assets/images/popup-logo.png" alt=""></h4>
-                        <h3>CREATE A YOUR ACCOUNT</h3>
+                        <h3>CREATE YOUR ACCOUNT</h3>
                     </div>
                     <form>
                         <div class="modal-body">
@@ -288,29 +291,29 @@
         <script src="assets/js/datepair.js"></script>
         <script src="assets/js/jquery.datepair.js"></script>
         <script>
-            $('#datepairExample .time').timepicker({
-                'showDuration': true,
-                'timeFormat': 'g:ia'
-            });
+                                                                        $('#datepairExample .time').timepicker({
+                                                                            'showDuration': true,
+                                                                            'timeFormat': 'g:ia'
+                                                                        });
 
-            $('#datepairExample .date').datepicker({
-                'format': 'm/d/yyyy',
-                'autoclose': true
-            });
+                                                                        $('#datepairExample .date').datepicker({
+                                                                            'format': 'm/d/yyyy',
+                                                                            'autoclose': true
+                                                                        });
 
-            $('#datepairExample').datepair();
+                                                                        $('#datepairExample').datepair();
         </script>
 
         <!-- Demo -->
         <script src="assets/js/owl.carousel.js"></script> 
         <script>
-            $(document).ready(function () {
-                $("#owl-demo").owlCarousel({
-                    items: 2,
-                    lazyLoad: true,
-                    navigation: true
-                });
-            });
+                                                                        $(document).ready(function () {
+                                                                            $("#owl-demo").owlCarousel({
+                                                                                items: 2,
+                                                                                lazyLoad: true,
+                                                                                navigation: true
+                                                                            });
+                                                                        });
         </script>
     </body>
 </html>
