@@ -30,16 +30,18 @@ myApp.controller('testFlightCtrl', function ($scope, $http) {
     $scope.selectData = [];
 
     $scope.selectData[0] = {"code": "CPH", "name":"Copenhagen"};
+ 
     $scope.Cities = [{"code": "BCN", "name": "Barcelona"}, {"code": "CDG", "name": "Paris"}, {"code": "CPH", "name": "Copenhagen"}, {"code": "STN", "name": "London"}, {"code": "SXF", "name": "Berlin"}];
 
     self.postFlight = function (info, myDate)
     {
 
-
-            if (typeof info[1] !== 'undefined')
+            
+            if ( info[1] != null )
             {
                 $scope.flights = {"selectedDepature": {"code": info[0].code, "date": myDate}, "selectedDestination": {"code": info[1].code}};
-            } else
+            } 
+            else
             {
                 $scope.flights = {"selectedDepature": {"code": info[0].code, "date": myDate}, "selectedDestination": {"code": "empty"}};
             }
