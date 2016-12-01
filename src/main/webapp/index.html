@@ -9,8 +9,15 @@
         <link href="assets/css/owl.carousel.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datepicker.css" />
 
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-        <script src="app/javascript/testflight.js" type="text/javascript"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
     </head>
 
     <body>
@@ -38,7 +45,7 @@
         <section>
             <div class="book-flight">
                 <div class="container">
-                    <div class="book-flight-text"><h2>Book Domestic &amp; International Flight</h2></div>
+                    <div class="book-flight-text"><h2>Book Domestic &amp; International Flights</h2></div>
                     <div class="flight-tab">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs" role="tablist">
@@ -48,133 +55,174 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="flight">
+
                                 <div class="search-form">
-                                    <div class="row2">
-                                        <div class="col-sm-22">
-                                            <input type="text" placeholder="Departure City">
+                               
+                                        <div class="row2">
+                                            <div class="col-sm-22">
+                                                <!--   <input type="text" ng-model="flights.depature" placeholder="Departure City"> -->
+                                                
+                                                <select 
+                                                    name=selectData[0]
+                                                    ng-model="selectData[0]"
+                                                    ng-options="item.code for item in Cities| arrayDiff:selectData:selectData[0]"
+                                                    ng-class="{error: showMsgs && myform.selectData[0].$error.required}">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-22">
+                                                <!-- <input type="text" ng-model="flights.destination" placeholder="Destination City"> -->
+                                                <select 
+                                                    ng-model="selectData[1]"
+                                                    ng-options="item.code for item in Cities| arrayDiff:selectData:selectData[1]">
+                                                    <option value="">All airports</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-44">
+                                                
+                                                <input type="date" name="myDate" ng-model="myDate" class="date start" placeholder="Departure Date"/>
+                                                <!-- <input type="" class="date end" placeholder="Returning Date" /> -->
+                                                
+                                            </div>
+                                            <div class="col-sm-22">
+                                                <select>
+                                                    <option>1 Traveller, Economy</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-22">
+                                                <button ng-click="ctrl.postFlight(selectData, myDate, 'myform')">Search</button>
+                                            </div>
+                                            <div class="clearfix"></div>
+
                                         </div>
-                                        <div class="col-sm-22">
-                                            <input type="text" placeholder="Destination City">
+                                    
+                                </div>
+                            
+                                <div class="address">
+                                    <h2> {{selectData[0].code}}, {{selectData[0].name}}  <img src="assets/images/left-right-aero.png" alt=""> {{selectData[1].name}}, {{selectData[1].code}} <span> {{myDate}},  1 Traveller(s), Economy</span>
+                                    </h2>
+                                </div>
+
+
+
+
+
+                                <div class="choose-flight" ng-show="ctrl.flightsGotten === true || ctrl.error === true">
+
+                                    {{ctrl.resetFlightNr()}}
+                                    <div class="choose-slid">
+                                        <div id="owl-demo" class="owl-carousel"  >
+
+
+                                            <div class="item" ng-show="ctrl.error === true">
+                                                <div class="choose">
+
+                                                    <div class="clearfix"></div>
+                                                    <div class="choose-btn">
+                                                        <ul>
+                                                            <li> {{ctrl.flightData.message}}  <span></span></li>
+
+
+                                                            <li> <span></span></li>
+                                                        </ul>
+
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="item" ng-repeat="i in ctrl.itemArray track by $index" ng-show="ctrl.flightsGotten === true"> 
+
+
+
+                                                <div class="choose" ng-repeat="j in ctrl.getFlightCount() track by $index" ng-if="ctrl.flightNr <= ctrl.dataSize - 1">
+
+
+
+                                                    <img src="assets/images/air-india-logo.png" alt=""> 
+                                                    {{ctrl.flightData.airline}}
+                                                    <h3>$125.00<span>${{ctrl.flightData.flights[ctrl.flightNr].totalPrice}}</span></h3>
+                                                    <div class="clearfix"></div>
+                                                    <div class="choose-btn">
+                                                        <ul>
+                                                            <li> From here  <span>{{ctrl.flightData.flights[ctrl.flightNr].origin}} 5:10 pm</span></li>
+                                                            <li><img src="assets/images/oneway-aero.png" alt=""></li>
+                                                            <li> To there <span>{{ctrl.flightData.flights[ctrl.flightNr].destination}} 5:10 pm</span></li>
+                                                            <li>{{ctrl.flightData.flights[ctrl.flightNr].traveltime| traveltime}} <span>Direct</span></li>
+                                                        </ul>
+                                                        <button class="btn">Choose</button>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    {{ctrl.incFlightNr()}} <!-- A bit hackish :P -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="login">
+                                <div class="login-form">
+                                    <div class="row2">
+                                        <div class="col-sm-44">
+                                            <input type="text" placeholder="User Name">
                                         </div>
                                         <div class="col-sm-44">
-                                            <p id="datepairExample">
-                                                <input type="" class="date start" placeholder="Departure Date" />
-                                                <!-- <input type="" class="date end" placeholder="Returning Date" /> -->
-                                            </p>
+                                            <input type="text" placeholder="Passward">
                                         </div>
                                         <div class="col-sm-22">
-                                            <select>
-                                                <option>1 Traveller, Economy</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-22">
-                                            <button ng-click="ctrl.getFlight()">Search</button>
+                                            <button>LOGIN</button>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                <div class="address">
-                                    <h2> New York, JFK  <img src="assets/images/left-right-aero.png" alt=""> Dubai, PRG <span>Sunday, 27 November 2016 - Wednesday, 30 November 2016,  1 Traveller(s), Economy</span>
-                                    </h2>
-                                </div>
-                          
-                                <div class="choose-flight" ng-show="ctrl.flightsGotten">
-                                    <div class="choose-slid">
-                                        <div id="owl-demo" class="owl-carousel"  >
-                                            Flights wanted: {{ctrl.dataSize}}
-                                            Items wanted: {{ctrl.items}}
-                                            
-                                            {{ctrl.resetFlightNr()}}
-                                                 <div class="item" ng-repeat="i in ctrl.itemArray track by $index"> 
-                                        
-                                                    Item: {{$index}}
-                                                    
-                                                    <div class="choose" ng-repeat="j in ctrl.getFlightCount() track by $index" ng-if="ctrl.flightNr <= ctrl.dataSize ">
-                                                       
-                                                       flightnumber {{ctrl.flightNr}} 
-                                                        
-                                                        <img src="assets/images/air-india-logo.png" alt=""> 
-                                                        {{ctrl.flightData.flights[ctrl.flightNr].airline}}
-                                                        <h3>$125.00<span>${{ctrl.flightData.flights[ctrl.flightNr].totalPrice}}</span></h3>
-                                                        <div class="clearfix"></div>
-                                                        <div class="choose-btn">
-                                                            <ul>
-                                                                <li> From here  <span>{{ctrl.flightData.flights[ctrl.flightNr].origin}} 5:10 pm</span></li>
-                                                                <li><img src="assets/images/oneway-aero.png" alt=""></li>
-                                                                <li> To there <span>{{ctrl.flightData.flights[ctrl.flightNr].destination}} 5:10 pm</span></li>
-                                                                <li>{{ctrl.flightData.flights[ctrl.flightNr].traveltime| traveltime}} <span>Direct</span></li>
-                                                            </ul>
-                                                            <button class="btn">Choose</button>
-                                                            <div class="clearfix"></div>
-                                                        </div>
-                                                        {{ctrl.incFlightNr()}} <!-- A bit hackish :P -->
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane" id="login">
-                                    <div class="login-form">
-                                        <div class="row2">
-                                            <div class="col-sm-44">
-                                                <input type="text" placeholder="User Name">
-                                            </div>
-                                            <div class="col-sm-44">
-                                                <input type="text" placeholder="Passward">
-                                            </div>
-                                            <div class="col-sm-22">
-                                                <button>LOGIN</button>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                 		
-                        </div>
+                            </div>
+                        </div>                 		
                     </div>
                 </div>
-                <div class="latest-update">
-                    <div class="container">
-                        <div class="get-latest">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <h2>Get the Latest Update and informations</h2>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                        when an unknown printer took a galley book.</p>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="blue-sign-up"><h3><a href="#">Sign Up now and get your <span> update in your inbox</span></a></h3></div>
-                                </div>
+            </div>
+            <div class="latest-update">
+                <div class="container">
+                    <div class="get-latest">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2>Get the Latest Update and informations</h2>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when an unknown printer took a galley book.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="blue-sign-up"><h3><a href="#">Sign Up now and get your <span> update in your inbox</span></a></h3></div>
                             </div>
                         </div>
-                        <div class="flight-name">
+                    </div>
+                    <div class="flight-name">
+                        <ul>
+                            <li><a href="#"><img src="assets/images/arik.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-austral.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-tnzania.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-zimbawe.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/alitalia.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-seychelles.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/Elyaln.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/inter-air.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-malawi.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/DELTA.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-france.jpg" alt=""></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <div class="second-part">
                             <ul>
-                                <li><a href="#"><img src="assets/images/arik.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/air-austral.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/air-tnzania.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/air-zimbawe.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/alitalia.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/air-seychelles.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/Elyaln.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/inter-air.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/air-malawi.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/DELTA.jpg" alt=""></a></li>
-                                <li><a href="#"><img src="assets/images/air-france.jpg" alt=""></a></li>
+
                             </ul>
                             <div class="clearfix"></div>
-                            <div class="second-part">
-                                <ul>
-
-                                </ul>
-                                <div class="clearfix"></div>
-                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
         </section>
         <footer class="footer">
             <div class="container">
@@ -300,30 +348,30 @@
         <script type="text/javascript" src="assets/js/bootstrap-datepicker.js"></script>
         <script src="assets/js/datepair.js"></script>
         <script src="assets/js/jquery.datepair.js"></script>
+        <script src="app/javascript/testflight.js" type="text/javascript"></script>
         <script>
-                                                                        $('#datepairExample .time').timepicker({
-                                                                            'showDuration': true,
-                                                                            'timeFormat': 'g:ia'
-                                                                        });
-
-                                                                        $('#datepairExample .date').datepicker({
-                                                                            'format': 'm/d/yyyy',
-                                                                            'autoclose': true
-                                                                        });
-
-                                                                        $('#datepairExample').datepair();
+                                                                $('#datepairExample .time').timepicker({
+                                                                    'showDuration': true,
+                                                                    'timeFormat': 'g:ia'
+                                                                });
+                                                                $('#datepairExample .date').datepicker({
+                                                                    'format': 'yyyy/m/d',
+                                                                    'autoclose': true
+                                                                });
+                                                                $('#datepairExample').datepair();
         </script>
 
         <!-- Demo -->
         <script src="assets/js/owl.carousel.js"></script> 
         <script>
-                                                                        $(document).ready(function () {
-                                                                            $("#owl-demo").owlCarousel({
-                                                                                items: 2,
-                                                                                lazyLoad: true,
-                                                                                navigation: true
-                                                                            });
-                                                                        });
+                                                                $(document).ready(function () {
+                                                                    $("#owl-demo").owlCarousel({
+                                                                        items: 2,
+                                                                        lazyLoad: false,
+                                                                        navigation: true
+                                                                    });
+                                                                });
         </script>
+
     </body>
 </html>

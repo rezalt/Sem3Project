@@ -123,7 +123,7 @@ border-radius:5px; text-align:center; padding:20px 0; margin-right:10px;}
 .footer h4{ font-size:15px; color:#444444; text-align:center; padding:10px 0 15px;}
 .verisign-headign ~ li img{ margin-top:-10px;}
 .book-flight-text{ position:relative; text-align:right;}
-.book-flight-text h2{ position:absolute; font-size:20px; color:#000; top:-140px; right:0; font-family: 'robotoregular';}
+.book-flight-text h2{ position:absolute; font-size:20px; color:#fff; top:-140px; right:0; font-family: 'robotoregular';}
 .modal.fade.in{ background:url(../images/black-transparent.png) repeat top left;}
 .modal-header {background:url(../images/popup-banner.jpg) no-repeat top center; border-radius:5px 5px 0 0; }
 .modal-title{ text-align:center; }
