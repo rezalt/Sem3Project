@@ -23,6 +23,7 @@ myApp.controller('testFlightCtrl', function ($scope, $http) {
 
     $scope.showMsgs = false;
     $scope.myDate;
+   
 
     $scope.toCities = [{"code": "BCN", "name": "Barcelona"}, {"code": "CDG", "name": "Paris"}, {"code": "CPH", "name": "Copenhagen"}, {"code": "STN", "name": "London"}, {"code": "SXF", "name": "Berlin"}];
 
