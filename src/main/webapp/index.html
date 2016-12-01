@@ -55,9 +55,9 @@
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="flight">
-
+                                
                                 <div class="search-form">
-                               
+                                    <form>
                                         <div class="row2">
                                             <div class="col-sm-22">
                                                 <!--   <input type="text" ng-model="flights.depature" placeholder="Departure City"> -->
@@ -66,7 +66,8 @@
                                                     name=selectData[0]
                                                     ng-model="selectData[0]"
                                                     ng-options="item.code for item in Cities| arrayDiff:selectData:selectData[0]"
-                                                    ng-class="{error: showMsgs && myform.selectData[0].$error.required}">
+                                                    ng-class="{error: showMsgs && myform.selectData[0].$error.required}"
+                                                    required >
                                                 </select>
                                             </div>
                                             <div class="col-sm-22">
@@ -79,7 +80,7 @@
                                             </div>
                                             <div class="col-sm-44">
                                                 
-                                                <input type="date" name="myDate" ng-model="myDate" class="date start" placeholder="Departure Date"/>
+                                                <input type="date" name="myDate" ng-model="myDate" class="date start" placeholder="Departure Date" required/>
                                                 <!-- <input type="" class="date end" placeholder="Returning Date" /> -->
                                                 
                                             </div>
@@ -89,10 +90,10 @@
                                                 </select>
                                             </div>
                                             <div class="col-sm-22">
-                                                <button ng-click="ctrl.postFlight(selectData, myDate, 'myform')">Search</button>
+                                                <button type="submit" ng-click="ctrl.postFlight(selectData, myDate)">Search</button>
                                             </div>
                                             <div class="clearfix"></div>
-
+                                        </form>
                                         </div>
                                     
                                 </div>
