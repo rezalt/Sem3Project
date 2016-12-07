@@ -1,68 +1,378 @@
-<!DOCTYPE html>
+<!doctype html>
 <html ng-app="flights" ng-controller="testFlightCtrl as ctrl">
     <head>
-        <title>Start Page</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
-        <script src="assets/javascript/testflight.js" type="text/javascript"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0, maximum-scale=0, user-scalable=no">
+        <title>::Flight Search::</title>
+        <link href="assets/css/style.css" rel="stylesheet" type="text/css" >
+        <link href="assets/css/bootstrap.css" rel="stylesheet" type="text/css" >
+        <link href="assets/css/owl.carousel.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="assets/css/bootstrap-datepicker.css" />
+
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+
+
     </head>
+
     <body>
-        <h1>Hello friend.</h1>
-        <button ng-click="getFlight()">Get flight</button>
-        <table style="text-align: center" border = 1>
-            <tr>
-                <th>
-                  flightID  
-                </th>
-                <th>
-                  numberOfSeats  
-                </th>
-                <th>
-                  date  
-                </th>
-                <th>
-                  totalPrice  
-                </th>
-                <th>
-                  traveltime  
-                </th>
-                <th>
-                  origin  
-                </th>
-                <th>
-                  destination  
-                </th>
-                <th>
-                  flightNumber  
-                </th>
-            </tr>
-            <tr>
-                <td>
-                     {{ctrl.flightData.flights[0].flightID}} 
-                </td>
-                <td>
-                     {{ctrl.flightData.flights[0].numberOfSeats}} 
-                </td>
-                <td>
-                    {{ctrl.flightData.flights[0].date}} 
-                </td>
-                <td>
-                    {{ctrl.flightData.flights[0].totalPrice}} 
-                </td>
-                <td>
-                    {{ctrl.flightData.flights[0].traveltime}} 
-                </td>
-                <td>
-                    {{ctrl.flightData.flights[0].origin}} 
-                </td>
-                <td>
-                    {{ctrl.flightData.flights[0].destination}} 
-                </td>
-                <td>
-                    {{ctrl.flightData.flights[0].flightNumber}}            
-                </td>
-            </tr>
-        </table>
-       
+        <header>
+            <div class="header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-4 logo">
+                            <img src="assets/images/logo.png" alt="">
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="flight">
+                                <h2>Call Us Today : 0123456789</h2>
+                                <ul>
+                                    <li><a class="active" href="#flight" aria-controls="search" role="tab" data-toggle="tab">FLIGHTS</a></li>
+                                    <li><a href="#" data-toggle="modal" data-target="#myModal">SIGN UP</a></li>
+                                    <li><a href="#login" aria-controls="login" role="tab" data-toggle="tab">LOGIN</a></li>
+                                </ul>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section>
+            <div class="book-flight">
+                <div class="container">
+                    <div class="book-flight-text"><h2>Book Domestic &amp; International Flights</h2></div>
+                    <div class="flight-tab">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#flight" aria-controls="search" role="tab" data-toggle="tab"><i class="flight-icon"></i> FLIGHT</a></li>
+                            <li role="presentation"><a href="#login" aria-controls="login" role="tab" data-toggle="tab"><i class="lock-icon"></i>LOGIN</a></li>
+                        </ul>	
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="flight">
+                                
+                                <div class="search-form">
+                                    <form>
+                                        <div class="row2">
+                                            <div class="col-sm-22">
+                                                <!--   <input type="text" ng-model="flights.depature" placeholder="Departure City"> -->
+                                                
+                                                <select 
+                                                    name=selectData[0]
+                                                    ng-model="selectData[0]"
+                                                    ng-options="item.code for item in Cities| arrayDiff:selectData:selectData[0]"
+                                                    ng-class="{error: showMsgs && myform.selectData[0].$error.required}"
+                                                    required >
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-22">
+                                                <!-- <input type="text" ng-model="flights.destination" placeholder="Destination City"> -->
+                                                <select 
+                                                    ng-model="selectData[1]"
+                                                    ng-options="item.code for item in Cities| arrayDiff:selectData:selectData[1]">
+                                                    <option value="">All airports</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-44">
+                                                
+                                                <input type="date" name="myDate" ng-model="myDate" class="date start" placeholder="Departure Date" required/>
+                                                <!-- <input type="" class="date end" placeholder="Returning Date" /> -->
+                                                
+                                            </div>
+                                            <div class="col-sm-22">
+                                                <select>
+                                                    <option>1 Traveller, Economy</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-22">
+                                                <button type="submit" ng-click="ctrl.postFlight(selectData, myDate)">Search</button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </form>
+                                        </div>
+                                    
+                                </div>
+                            
+                                <div class="address">
+                                    <h2> {{selectData[0].code}}, {{selectData[0].name}}  <img src="assets/images/left-right-aero.png" alt=""> {{selectData[1].name}}, {{selectData[1].code}} <span> {{myDate | date :  "yyyy.MM.dd"}} - 1 Traveller(s), Economy</span>
+                                    </h2>
+                                </div>
+
+
+
+
+
+                                <div class="choose-flight" ng-show="ctrl.flightsGotten === true || ctrl.error === true">
+
+                                    {{ctrl.resetFlightNr()}}
+                                    <div class="choose-slid">
+                                        <div id="owl-demo" class="owl-carousel"  >
+
+
+                                            <div class="item" ng-show="ctrl.error === true">
+                                                <div class="choose">
+
+                                                    <div class="clearfix"></div>
+                                                    <div class="choose-btn">
+                                                        <ul>
+                                                            <li> {{ctrl.flightData.message}}  <span></span></li>
+
+
+                                                            <li> <span></span></li>
+                                                        </ul>
+
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="item" ng-repeat="i in ctrl.itemArray track by $index" ng-show="ctrl.flightsGotten === true"> 
+
+
+
+                                                <div class="choose" ng-repeat="j in ctrl.getFlightCount() track by $index" ng-if="ctrl.flightNr <= ctrl.dataSize - 1">
+
+
+
+                                                    <img src="assets/images/air-india-logo.png" alt=""> 
+                                                    {{ctrl.flightData.airline}}
+                                                    <h3>$125.00<span>${{ctrl.flightData.flights[ctrl.flightNr].totalPrice}}</span></h3>
+                                                    <div class="clearfix"></div>
+                                                    <div class="choose-btn">
+                                                        <ul>
+                                                            <li> From here  <span>{{ctrl.flightData.flights[ctrl.flightNr].origin}} 5:10 pm</span></li>
+                                                            <li><img src="assets/images/oneway-aero.png" alt=""></li>
+                                                            <li> To there <span>{{ctrl.flightData.flights[ctrl.flightNr].destination}} 5:10 pm</span></li>
+                                                            <li>{{ctrl.flightData.flights[ctrl.flightNr].traveltime| traveltime}} <span>Direct</span></li>
+                                                        </ul>
+                                                        <button class="btn">Choose</button>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+                                                    {{ctrl.incFlightNr()}} <!-- A bit hackish :P -->
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div role="tabpanel" class="tab-pane" id="login">
+                                <div class="login-form">
+                                    <div class="row2">
+                                        <div class="col-sm-44">
+                                            <input type="text" placeholder="User Name">
+                                        </div>
+                                        <div class="col-sm-44">
+                                            <input type="text" placeholder="Passward">
+                                        </div>
+                                        <div class="col-sm-22">
+                                            <button>LOGIN</button>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                 		
+                    </div>
+                </div>
+            </div>
+            <div class="latest-update">
+                <div class="container">
+                    <div class="get-latest">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2>Get the Latest Update and informations</h2>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when an unknown printer took a galley book.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="blue-sign-up"><h3><a href="#">Sign Up now and get your <span> update in your inbox</span></a></h3></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flight-name">
+                        <ul>
+                            <li><a href="#"><img src="assets/images/arik.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-austral.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-tnzania.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-zimbawe.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/alitalia.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-seychelles.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/Elyaln.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/inter-air.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-malawi.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/DELTA.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/air-france.jpg" alt=""></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <div class="second-part">
+                            <ul>
+
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="container">
+                <div class="corp-info">
+                    <h2>Corporate Information</h2>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Our Investors</a></li>
+                        <li><a href="#">Our Blog</a></li>
+                        <li><a href="#">Site map</a></li>
+                    </ul>
+                </div>
+                <div class="corp-info">
+                    <h2>Service</h2>
+                    <ul>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Fare Rules</a></li>
+                        <li><a href="#">User Agreement</a></li>
+                        <li><a href="#">Some Useful Links</a></li>
+                        <li><a href="#">Holiday Retail Stores</a></li>
+                    </ul>
+                </div>
+                <div class="corp-info">
+                    <h2>Customer Care</h2>
+                    <ul>
+                        <li><a href="#">Help & FAQs</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Visa Information</a></li>
+                        <li><a href="#">Reschedule Flights</a></li>
+                        <li><a href="#">eCash - FAQs</a></li>
+                        <li><a href="#">Hold For Free-FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="corp-info">
+                    <h2>Why Buy With Our Company</h2>
+                    <ul>
+                        <li><a href="#">Testimonials</a></li>
+                        <li><a href="#">Awards Won</a></li>
+                        <li><a href="#">Flights in the News</a></li>
+                        <li><a href="#">Press Releases</a></li>
+                        <li><a href="#">Airfare Assurance - FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="partner">
+                    <h2>Partner With Us</h2>
+                    <ul>
+                        <li><a href="#">Become an Affiliate</a></li>
+                        <li><a href="#">Become a Channel Partner</a></li>
+                        <li><a href="#">Register Your Flight</a></li>
+                        <li><a href="#">Advertise With Us</a></li>
+                        <li><a href="#">Sell Holiday Packages</a></li>
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+                <div class="social-site">
+                    <div class="connect-us">
+                        <ul>
+                            <li class="social-headign">Connect with us :</li>
+                            <li><a href="#"><img src="assets/images/fb-icon.png" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/twit-icon.png" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/pinterest-icon.png" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/twit-bird-icon.png" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/in-icon.png" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/g-icon.jpg" alt=""></a></li>
+                            <li><img src="assets/images/standing-border.jpg" alt=""></li>
+                        </ul>
+                    </div>
+                    <div class="connect-us">
+                        <ul>
+                            <li class="we-accept-heading">We accept :</li>
+                            <li><a href="#"><img src="assets/images/visa.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/master-card.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/American.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/dream-club.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/rupay.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/Emi.jpg" alt=""></a></li>
+                            <li><a href="#"><img src="assets/images/net-banking.jpg" alt=""></a></li>
+                            <li><img src="assets/images/standing-border.jpg" alt=""></li>
+                            <li class="verisign-headign">Verisign Secure</li>
+                            <li><img src="assets/images/verisign.jpg" alt=""></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <h4>CopyRight @ 2016 All Rights reserved</h4>
+            </div>
+        </footer>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel"><img src="assets/images/popup-logo.png" alt=""></h4>
+                        <h3>CREATE YOUR ACCOUNT</h3>
+                    </div>
+                    <form>
+                        <div class="modal-body">
+                            <div class="login-popup">
+                                <input type="text" placeholder="Enter Your Name">
+                                <input type="tel" placeholder="Enter Your mobile">
+                                <input type="email" placeholder="Enter Your Email">
+                                <input type="password" placeholder="Password">
+                                <input type="password" placeholder="Confirm Password">
+                                <textarea>Address</textarea>
+                                <input type="submit" value="Sign Up">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <p><a href="#">If you have already Sign Up so will be Login Here</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="assets/js/jquery.js" type="text/javascript"></script>
+        <script src="assets/js/bootstrap.js" type="text/javascript"></script>
+        <script type="text/javascript" src="assets/js/jquery.timepicker.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap-datepicker.js"></script>
+        <script src="assets/js/datepair.js"></script>
+        <script src="assets/js/jquery.datepair.js"></script>
+        <script src="app/javascript/testflight.js" type="text/javascript"></script>
+        <script>
+                                                                $('#datepairExample .time').timepicker({
+                                                                    'showDuration': true,
+                                                                    'timeFormat': 'g:ia'
+                                                                });
+                                                                $('#datepairExample .date').datepicker({
+                                                                    'format': 'yyyy/m/d',
+                                                                    'autoclose': true
+                                                                });
+                                                                $('#datepairExample').datepair();
+        </script>
+
+        <!-- Demo -->
+        <script src="assets/js/owl.carousel.js"></script> 
+        <script>
+                                                                $(document).ready(function () {
+                                                                    $("#owl-demo").owlCarousel({
+                                                                        items: 2,
+                                                                        lazyLoad: false,
+                                                                        navigation: true
+                                                                    });
+                                                                });
+        </script>
+
     </body>
 </html>
