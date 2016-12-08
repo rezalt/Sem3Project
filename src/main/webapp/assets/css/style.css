@@ -7,6 +7,25 @@
 @font-face { font-family: 'robotomedium'; src: url('../fonts/roboto-medium.woff2') format('woff2'),      url('../fonts/roboto-medium.woff') format('woff'); font-weight: normal; font-style: normal;}
 @font-face { font-family: 'robotoregular'; src: url('../fonts/roboto-regular.woff2') format('woff2'),      url('../fonts/roboto-regular.woff') format('woff'); font-weight: normal; font-style: normal;}
 *{padding:0; margin:0;}
+.plusminus {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 18px; 
+}
+
+#images{
+    text-align:center;
+}
+.passengerBtn{
+    
+    width: 15px;
+    height: 15px;
+    border: 0 none transparent;
+    padding:0;
+    margin:0;
+
+}
 body{font-size:16px; color:#000; padding:0; margin:0;}
 .header{background:url(../images/slidder3.jpg) top center no-repeat; background-size:cover; padding:20px 20px 0; height:530px;}
 .header .flight h2{font-size:16px; color:#fff; text-align:right; font-family: 'robotomedium'; text-transform:capitalize; display:block; padding-right:20px; margin:0 0 15px;}

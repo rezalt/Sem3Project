@@ -8,82 +8,122 @@ var myApp = angular.module('flights', ['ngMaterial', 'ngMessages']);
 
 myApp.controller('testFlightCtrl', function ($scope, $http) {
 
-
-
-
     var self = this;
-    self.flightNr = 0;
     self.flightData = [];
     $scope.flights = {};
+    $scope.passengerFirstName=[];
+    $scope.passengerLastName=[];
     self.dataSize = 0;
     self.flightsGotten = false;
-    self.items = 0;
-    self.itemArray = [0];
-    self.carouselArray = [0];
+    self.passengerAmount = 1;
+    self.passengerAmountArray = [0]; // for ng-repeat
+    self.passengerPluralOrNot = "1 Passenger";
+    $scope.chosenFlight = 0;
 
     $scope.showMsgs = false;
     $scope.myDate;
-   
+
 
     $scope.toCities = [{"code": "BCN", "name": "Barcelona"}, {"code": "CDG", "name": "Paris"}, {"code": "CPH", "name": "Copenhagen"}, {"code": "STN", "name": "London"}, {"code": "SXF", "name": "Berlin"}];
 
 
     $scope.selectData = [];
 
-    $scope.selectData[0] = {"code": "CPH", "name":"Copenhagen"};
- 
+    $scope.selectData[0] = {"code": "CPH", "name": "Copenhagen"};
+
     $scope.Cities = [{"code": "BCN", "name": "Barcelona"}, {"code": "CDG", "name": "Paris"}, {"code": "CPH", "name": "Copenhagen"}, {"code": "STN", "name": "London"}, {"code": "SXF", "name": "Berlin"}];
+
+    $scope.increasePassengers = function ()
+    {
+        if (self.passengerAmount < 9)
+        {
+            self.passengerAmount += 1;
+            self.passengerAmountArray.push(1);
+        }
+        if (self.passengerAmount > 1)
+            self.passengerPluralOrNot = self.passengerAmount + " Passengers";
+
+    };
+
+    $scope.decreasePassengers = function ()
+    {
+        if (self.passengerAmount > 1)
+        {
+            self.passengerAmount -= 1;
+            self.passengerPluralOrNot = self.passengerAmount + " Passengers";
+            self.passengerAmountArray.pop();
+        }
+
+        if (self.passengerAmount <= 1)
+            self.passengerPluralOrNot = self.passengerAmount + " Passenger";
+    };
 
     self.postFlight = function (info, myDate)
     {
 
-            
-            if ( info[1] != null )
-            {
-                $scope.flights = {"selectedDepature": {"code": info[0].code, "date": myDate}, "selectedDestination": {"code": info[1].code}};
-            } 
-            else
-            {
-                $scope.flights = {"selectedDepature": {"code": info[0].code, "date": myDate}, "selectedDestination": {"code": "empty"}};
-            }
-            $http.post('api/flight/getFlights', $scope.flights)
-                    .success(function (data)
+
+        if (info[1] != null)
+        {
+            $scope.flights = {"selectedDepature": {"code": info[0].code, "date": myDate}, "selectedDestination": {"code": info[1].code}, "passengerAmount": {"amount": self.passengerAmount}};
+        } else
+        {
+            $scope.flights = {"selectedDepature": {"code": info[0].code, "date": myDate}, "selectedDestination": {"code": "empty"}, "passengerAmount": {"amount": self.passengerAmount}};
+        }
+        $http.post('api/flight/getFlights', $scope.flights)
+                .success(function (data)
+                {
+
+                    if (data.hasOwnProperty('airline'))
                     {
+                        self.flightData = data;
+                        self.flightsGotten = true;
+                        self.error = false;
+                        self.dataSize = self.flightData.flights.length;
 
-                        if (data.hasOwnProperty('airline'))
-                        {
-                            self.flightData = data;
-                            self.flightsGotten = true;
-                            self.error = false;
-                            self.dataSize = self.flightData.flights.length;
+                        $scope.chosenFlightArray = [];
 
-                            self.items = 0;
-                            for (i = 0; i < self.dataSize; i++)
-                            {
-                                if (i % 3 === 0)
-                                {
-                                    self.items++;
-                                }
-                            }
 
-                            self.itemArray = new Array(self.items);
-                            self.carouselArray = new Array(1);
-                        }
-                        if (data.hasOwnProperty('httpError'))
-                        {
-                            self.flightsGotten = false;
-                            self.error = true;
-                            self.flightData = data;
-
-                        }
-                    })
-                    .error(function (data)
+                    }
+                    if (data.hasOwnProperty('httpError'))
                     {
-                        $scope.errors = data.errors + data.message;
-                    });
-        
+                        self.flightsGotten = false;
+                        self.error = true;
+                        self.flightData = data;
+
+                    }
+                })
+                .error(function (data)
+                {
+                    $scope.errors = data.errors + data.message;
+                });
+
     };
 
+    self.reserveFlight = function (reserveeName, reserveePhone, reserveeEmail,passengerFirstName,passengerLastName)
+    {
+        
+        
+        passengers = [];
+        for (i = 0; i < passengerFirstName.length; i++)
+        {
+            passengers.push({"firstName": passengerFirstName[i], "lastName": passengerLastName[i]});
+        }
+
+        $scope.reserve = {"flightID": $scope.chosenFlight, "numberOfSeats": self.passengerAmount, "reserveeName": reserveeName, "reservePhone": reserveePhone, "reserveeEmail": reserveeEmail, "passengers": passengers};
+
+        $http.post('api/flight/reserveFlight', $scope.reserve)
+                .success(function (data)
+                {
+
+                   alert(data.message);
+
+                })
+                .error(function (data)
+                {
+                    alert(data.message);
+                });
+                
+    };
 
     self.getFlight = function ()
     {
@@ -94,17 +134,7 @@ myApp.controller('testFlightCtrl', function ($scope, $http) {
                     self.dataSize = self.flightData.flights.length;
 
 
-                    for (i = 0; i < self.dataSize; i++)
-                    {
-                        if (i % 3 === 0)
-                        {
-                            self.items++;
 
-                        }
-                    }
-
-                    self.itemArray = new Array(self.items);
-                    self.carouselArray = new Array(1);
 
 
 
@@ -114,34 +144,16 @@ myApp.controller('testFlightCtrl', function ($scope, $http) {
 
     };
 
-    self.resetFlightNr = function ()
-    {
-        self.flightNr = 0;
-    };
-    self.incFlightNr = function ()
-    {
-        self.flightNr++;
-    };
 
-    self.showItem = function (num)
+    $scope.flightChosen = function (nr)
     {
 
-        if (num % 3 === 0)
-        {
-            return true;
-        }
+        $scope.chosenFlight = nr;
 
-        return false;
-    };
 
-    self.getFlightCount = function ()
-    {
-
-        return new Array(3);
     };
 
 });
-
 
 myApp.filter('arrayDiff', function () {
     return function (array, diff) {
