@@ -367,14 +367,13 @@
                     <div class="modal-body">
                         <div class="login-popup">
                             FlightID: {{chosenFlight}}
-                            <input ng-model="reserveeName" type="text" placeholder="Enter reservee name">
-                            <input ng-model="reserveePhone" type="tel" placeholder="Enter reservee phone number">
-                            <input ng-model="reserveeEmail" type="email" placeholder="Enter reservee E-mail">    
+                            <input ng-model="reserveeName" type="text" placeholder="Enter reservee name" required>
+                            <input ng-model="reserveePhone" type="tel" placeholder="Enter reservee phone number" required>
+                            <input ng-model="reserveeEmail" type="email" placeholder="Enter reservee E-mail" required>    
                             <div ng-repeat="item in ctrl.passengerAmountArray track by $index">
                                 Passenger: {{$index+1}}
-                                <input ng-model="passengerFirstName[$index]" type="text" placeholder="Enter firstname">
-                                <input ng-model="passengerLastName[$index]" type="text" placeholder="Enter lastname">
-                                {{passengerFirstName[0]}}
+                                <input ng-model="passengerFirstName[$index]" type="text" placeholder="Enter firstname" required>
+                                <input ng-model="passengerLastName[$index]" type="text" placeholder="Enter lastname" required>
                             </div>
                             <div>
                                 <input type="submit" value="Reserve flight" ng-click="ctrl.reserveFlight(reserveeName,reserveePhone,reserveeEmail,passengerFirstName,passengerLastName)">

@@ -114,8 +114,15 @@ myApp.controller('testFlightCtrl', function ($scope, $http) {
         $http.post('api/flight/reserveFlight', $scope.reserve)
                 .success(function (data)
                 {
-
-                   alert(data.message);
+                   alert( "Flight reserved!" + "\n" 
+                    + "Flight ID: " + data.flightNumber + "\n"
+                    + "Destination: " + data.destination +"\n"
+                    + "Date: " + data.date + "\n"
+                    + "flightTime: " + data.flightTime  + "minutes \n"
+                    + "Seats: " + data.numberOfSeats  + "\n"
+                    + "reservee: " + data.reserveeName
+                    );
+                     
 
                 })
                 .error(function (data)
