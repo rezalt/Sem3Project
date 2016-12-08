@@ -7,17 +7,17 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
@@ -79,6 +79,40 @@ public class FlightService
     }
 
     @POST
+    @Path("reserveFlight")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public String reserveFlight(String jsonString) throws Exception
+    {
+        String charset = "UTF-8";
+        String uri = "http://airline-plaul.rhcloud.com/api/flightreservation";
+        URL url = new URL(uri);
+        HttpURLConnection connection
+                        = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true); // Triggers POST.
+        connection.setRequestProperty("Accept-Charset", charset);
+        connection.setRequestProperty("Content-Type", "application/json;charset=" + charset);
+
+        try (OutputStream output = connection.getOutputStream())
+        {
+            output.write(jsonString.getBytes(charset));
+        }
+
+        InputStream response = connection.getInputStream();
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        StringBuffer tmpjsonString = new StringBuffer();
+        String line;
+        while ((line = br.readLine()) != null)
+        {
+            tmpjsonString.append(line);
+        }
+        br.close();
+        connection.disconnect();
+                return tmpjsonString.toString();
+
+    }
+
+    @POST
     @Path("getFlights")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -91,19 +125,21 @@ public class FlightService
             String depature = json.getJSONObject("selectedDepature").getString("code");
             String date = json.getJSONObject("selectedDepature").getString("date");
             String destination = json.getJSONObject("selectedDestination").getString("code");
-        
+
             String request;
-            
-            if(destination.equals("empty") )
+
+            if (destination.equals("empty"))
             {
                 request = depature + "/" + date + "/1";
             }
             else
+            {
                 request = depature + "/" + destination + "/" + date + "/1";
-            
+            }
+
             try
-            {  
-               
+            {
+
                 String uri = "http://airline-plaul.rhcloud.com/api/flightinfo/" + request;
                 URL url = new URL(uri);
                 HttpURLConnection connection
@@ -138,7 +174,7 @@ public class FlightService
             String error = "{\n"
                     + "  \"httpError\": 400,\n"
                     + "  \"errorCode\": 1,\n"
-                    + "  \"message\": \"No flights from "+ depature +" at the given date\"\n"
+                    + "  \"message\": \"No flights from " + depature + " at the given date\"\n"
                     + "}";
             // convert String into InputStream
             InputStream is = new ByteArrayInputStream(error.getBytes());
@@ -150,7 +186,7 @@ public class FlightService
                 tmpjsonString.append(line);
             }
             ebr.close();
-            return tmpjsonString.toString(); 
+            return tmpjsonString.toString();
 
         }
         catch (Exception e)
